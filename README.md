@@ -64,9 +64,8 @@ Build de produção: `npm run build && npm start`.
 
 ## Antes de publicar (checklist)
 
-- [ ] **Currículo:** coloque o PDF em `public/curriculo.pdf` (todos os botões “Baixar currículo” apontam para ele).
-- [ ] **Foto:** coloque `public/foto.jpg` e troque o bloco `photo-slot` em `src/components/About.tsx` por:
-      `<Image src="/foto.jpg" alt="Sthephany Talasca" width={480} height={600} priority />` (importe `Image` de `next/image`).
+- [x] **Currículo:** coloque o PDF em `public/curriculo.pdf` (todos os botões “Baixar currículo” apontam para ele).
+- [x] **Foto:** `public/foto.jpg` (recorte 4:5), exibida em `src/components/About.tsx`.
 - [ ] **Textos dos cases:** os campos `context`, `challenges` e `participation` em `src/data/projects.ts` são rascunhos feitos a partir das informações confirmadas. Revise cada um.
 - [ ] **Confidencialidade:** confirme com a empresa o que pode ser divulgado antes de trocar ilustrações por capturas reais.
 - [ ] **Formulário:** veja a seção abaixo. Sem configuração, ele fica desativado e indica e-mail/WhatsApp — nunca simula envio.
