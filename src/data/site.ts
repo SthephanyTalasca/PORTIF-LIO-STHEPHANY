@@ -20,7 +20,7 @@ export const site = {
   formEndpoint: process.env.NEXT_PUBLIC_FORM_ENDPOINT || "",
   contacts: {
     email: "sthephanyestudos@gmail.com",
-    linkedin: "https://linkedin.com/in/sthephany-vargas-037515232",
+    linkedin: "https://www.linkedin.com/in/sthephany-talasca-037515232/",
     whatsapp: "https://wa.me/5547991678074",
     github: "https://github.com/Sthephanytalasca",
   },
