@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { about, timeline } from "@/data/content";
 import { site } from "@/data/site";
@@ -9,10 +10,15 @@ export function About() {
     <section id="sobre" className="section" aria-labelledby="sobre-title">
       <div className="container about">
         <Reveal className="about__photo">
-          {/* Substitua pela sua foto: coloque /public/foto.jpg e troque este bloco por <Image src="/foto.jpg" ... /> */}
-          <div className="photo-slot" role="img" aria-label="Espaço reservado para fotografia profissional">
-            <Icon name="image" size={28} />
-            <span>Espaço para foto profissional</span>
+          <div className="about__img">
+            <Image
+              src="/foto.jpg"
+              alt="Foto de Sthephany Talasca"
+              width={828}
+              height={1035}
+              sizes="(max-width: 900px) 420px, 480px"
+              priority
+            />
           </div>
           <ul className="about__facts">
             <li><Icon name="mapPin" size={16} /> {site.location}</li>
