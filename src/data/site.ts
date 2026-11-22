@@ -1,5 +1,8 @@
 // Informações gerais do site. Edite aqui para atualizar textos e contatos.
 
+// Prefixo de caminho quando o site roda em subpasta (GitHub Pages). Vazio na Vercel.
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export const site = {
   brand: "STHEPHANY.DEV",
   name: "Sthephany Talasca",
@@ -12,7 +15,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://sthephany.dev",
   locale: "pt-BR",
   // Coloque seu PDF em /public/curriculo.pdf
-  resumeUrl: "/curriculo.pdf",
+  resumeUrl: `${basePath}/curriculo.pdf`,
   // Preencha NEXT_PUBLIC_FORM_ENDPOINT para ativar o formulário (ex.: Formspree)
   formEndpoint: process.env.NEXT_PUBLIC_FORM_ENDPOINT || "",
   contacts: {
