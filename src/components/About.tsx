@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { about, timeline } from "@/data/content";
-import { site } from "@/data/site";
+import { basePath, site } from "@/data/site";
 import { Icon } from "./Icon";
 import { Reveal } from "./Reveal";
 
@@ -12,7 +12,7 @@ export function About() {
         <Reveal className="about__photo">
           <div className="about__img">
             <Image
-              src="/foto.jpg"
+              src={`${basePath}/foto.jpg`}
               alt="Foto de Sthephany Talasca"
               width={828}
               height={1035}

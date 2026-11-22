@@ -39,6 +39,7 @@ sthephany-dev/
 │   └── lib/
 │       ├── knowledge.ts        # base e busca do assistente (só conteúdo público)
 │       └── events.ts           # carrossel → filtros de projetos
+├── .github/workflows/          # deploy automático no GitHub Pages
 ├── preview/                    # gerador da prévia estática (não vai para produção)
 └── .env.example
 ```
@@ -61,6 +62,16 @@ Build de produção: `npm run build && npm start`.
 2. Em vercel.com → **Add New → Project** → importe o repositório (a Vercel detecta Next.js sozinha).
 3. Em **Environment Variables**, adicione `NEXT_PUBLIC_SITE_URL` com o domínio final (ex.: `https://sthephany.dev`).
 4. Clique em **Deploy**. Para domínio próprio: **Settings → Domains**.
+
+## Deploy no GitHub Pages
+
+O workflow `.github/workflows/deploy-pages.yml` gera uma versão estática do site e publica em
+`https://<usuario>.github.io/PORTIF-LIO-STHEPHANY/` a cada push na `main`.
+
+1. No GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions** (só uma vez).
+2. Faça merge na `main` (ou rode o workflow em **Actions → Deploy no GitHub Pages → Run workflow**).
+
+Sem esse passo, o Pages mostra apenas o README em vez do site.
 
 ## Antes de publicar (checklist)
 
