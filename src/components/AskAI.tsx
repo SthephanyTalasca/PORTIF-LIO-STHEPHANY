@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ask, suggestions, type Doc } from "@/lib/knowledge";
+import { answerFaq, ask, suggestions, type Answer, type Doc } from "@/lib/knowledge";
+import type { FaqLink } from "@/data/faq";
 import { Icon } from "./Icon";
 
-type Msg = { role: "user" | "bot"; text: string; sources?: Doc[] };
+type Msg = { role: "user" | "bot"; text: string; sources?: Doc[]; links?: FaqLink[] };
 
 const WELCOME: Msg = {
   role: "bot",
-  text: "Olá! Sou o assistente do portfólio. Respondo apenas com base no conteúdo público deste site — projetos, tecnologias e trajetória da Sthephany.",
+  text: "Olá! Sou o assistente do portfólio da Sthephany. Escolha uma das perguntas abaixo ou escreva a sua: respondo com base no conteúdo público deste site.",
 };
 
 export function AskAI() {
@@ -30,13 +31,26 @@ export function AskAI() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  const [asked, setAsked] = useState<string[]>([]);
+
+  const reply = (question: string, a: Answer) => {
+    setMsgs((m) => [...m, { role: "user", text: question }, { role: "bot", text: a.text, sources: a.sources, links: a.links }]);
+    if (a.faqId) setAsked((x) => (x.includes(a.faqId!) ? x : [...x, a.faqId!]));
+  };
+
   const send = (q: string) => {
     const question = q.trim();
     if (!question) return;
-    const a = ask(question);
-    setMsgs((m) => [...m, { role: "user", text: question }, { role: "bot", text: a.text, sources: a.sources }]);
+    reply(question, ask(question));
     setInput("");
   };
+
+  const pick = (id: string, question: string) => {
+    const a = answerFaq(id);
+    if (a) reply(question, a);
+  };
+
+  const pending = suggestions.filter((s) => !asked.includes(s.id));
 
   const onSubmit = (e: FormEvent) => { e.preventDefault(); send(input); };
 
@@ -74,11 +88,27 @@ export function AskAI() {
                     ))}
                   </ul>
                 )}
+                {m.links && m.links.length > 0 && (
+                  <ul className="ask__sources">
+                    {m.links.map((l) => (
+                      <li key={l.href + l.label}>
+                        {l.external ? (
+                          <a href={l.href} target="_blank" rel="noopener noreferrer" className={l.href.includes("wa.me") ? "is-whatsapp" : undefined}>
+                            {l.href.includes("wa.me") && <Icon name="whatsapp" size={12} />} {l.label} <Icon name="arrowUpRight" size={12} />
+                          </a>
+                        ) : (
+                          <Link href={l.href} onClick={() => setOpen(false)}>{l.label} <Icon name="arrowUpRight" size={12} /></Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
-            {msgs.length === 1 && (
+            {pending.length > 0 && (
               <div className="ask__suggest">
-                {suggestions.map((s) => <button key={s} className="chip" onClick={() => send(s)}>{s}</button>)}
+                {msgs.length > 1 && <p className="ask__suggest-label">Outras perguntas</p>}
+                {pending.map((s) => <button key={s.id} className="chip" onClick={() => pick(s.id, s.question)}>{s.question}</button>)}
               </div>
             )}
           </div>

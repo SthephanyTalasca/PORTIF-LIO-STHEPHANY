@@ -3,6 +3,7 @@
 // A busca roda no navegador: nenhuma pergunta é enviada a servidores.
 
 import { about, innovation, skills, timeline } from "@/data/content";
+import { faq, type Faq, type FaqLink } from "@/data/faq";
 import { projects } from "@/data/projects";
 import { site } from "@/data/site";
 
@@ -69,11 +70,34 @@ export function buildDocs(): Doc[] {
 const DOCS = buildDocs();
 const INDEX = DOCS.map((d) => ({ d, tokens: new Set(tokenize(`${d.title} ${d.title} ${d.text} ${d.extra ?? ""}`)) }));
 
-export type Answer = { text: string; sources: Doc[] };
+export type Answer = { text: string; sources: Doc[]; links?: FaqLink[]; faqId?: string };
+
+const faqAnswer = (f: Faq): Answer => ({ text: f.answer, sources: [], links: f.links, faqId: f.id });
+
+export const answerFaq = (id: string): Answer | null => {
+  const f = faq.find((x) => x.id === id);
+  return f ? faqAnswer(f) : null;
+};
+
+// Pergunta digitada parecida com uma pergunta pronta? Usa a resposta pronta.
+function matchFaq(q: string[]): Faq | null {
+  let best: { f: Faq; score: number } | null = null;
+  for (const f of faq) {
+    const keys = new Set([...f.keywords.map(normalize), ...tokenize(f.question)]);
+    let score = 0;
+    for (const t of q) if (keys.has(t)) score += 1;
+    if (score > 0 && (!best || score > best.score)) best = { f, score };
+  }
+  // Exige pelo menos metade das palavras da pergunta batendo, para não "roubar" perguntas técnicas.
+  return best && best.score >= Math.max(1, Math.ceil(q.length / 2)) ? best.f : null;
+}
 
 export function ask(question: string): Answer {
   const q = tokenize(question);
   if (!q.length) return { text: "Pode reformular? Pergunte, por exemplo, sobre um projeto, uma tecnologia ou a trajetória da Sthephany.", sources: [] };
+
+  const f = matchFaq(q);
+  if (f) return faqAnswer(f);
 
   const scored = INDEX.map(({ d, tokens }) => {
     let score = 0;
@@ -104,9 +128,4 @@ export function ask(question: string): Answer {
   return { text, sources: list };
 }
 
-export const suggestions = [
-  "Quais projetos ela desenvolveu com n8n?",
-  "Ela tem experiência com SQL?",
-  "Como funciona o Auditor de Reuniões?",
-  "Como foi o Hackathon?",
-];
+export const suggestions = faq.map((f) => ({ id: f.id, question: f.question }));
