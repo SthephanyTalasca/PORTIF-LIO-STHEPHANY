@@ -10,7 +10,7 @@ type Msg = { role: "user" | "bot"; text: string; sources?: Doc[]; links?: FaqLin
 
 const WELCOME: Msg = {
   role: "bot",
-  text: "Olá! Sou o assistente do portfólio da Sthephany. Escolha uma das perguntas abaixo ou escreva a sua: respondo com base no conteúdo público deste site.",
+  text: "Olá! Eu sou a Sthephany. Escolha uma das perguntas abaixo ou escreva a sua, que eu te respondo com base no que está aqui no meu portfólio.",
 };
 
 export function AskAI() {
@@ -120,7 +120,7 @@ export function AskAI() {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Pergunte sobre projetos ou tecnologias…"
+              placeholder="Pergunte sobre meus projetos ou tecnologias…"
               maxLength={200}
               autoComplete="off"
             />

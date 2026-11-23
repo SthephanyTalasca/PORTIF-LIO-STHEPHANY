@@ -10,7 +10,7 @@ import { site } from "@/data/site";
 export type Doc = { id: string; title: string; text: string; short?: string; href?: string; extra?: string };
 
 const STOP = new Set(
-  "a o as os de da do das dos e em no na nos nas um uma uns umas com por para que qual quais quem como ela ele tem ter teve sobre ja já mais seu sua suas seus isso esse essa este esta foi ser são sao é me te se ao aos à às ou onde quando sthephany voce você experiencia experiência projetos projeto fez desenvolveu".split(" "),
+  "a o as os de da do das dos e em no na nos nas um uma uns umas com por para que qual quais quem como ela ele tem ter teve sobre ja já mais seu sua suas seus isso esse essa este esta foi ser são sao é me te se ao aos à às ou onde quando eu mim meu minha sthephany voce você experiencia experiência projetos projeto fez desenvolveu".split(" "),
 );
 
 export const normalize = (s: string) =>
@@ -38,7 +38,7 @@ export function buildDocs(): Doc[] {
   }
   docs.push({
     id: "about",
-    title: "Sobre a Sthephany",
+    title: "Sobre mim",
     text: about.paragraphs.slice(0, 3).join(" "),
     extra: "formação graduação marketing pós-graduação faculdade estudo nibo trajetória",
     href: "/#sobre",
@@ -94,7 +94,7 @@ function matchFaq(q: string[]): Faq | null {
 
 export function ask(question: string): Answer {
   const q = tokenize(question);
-  if (!q.length) return { text: "Pode reformular? Pergunte, por exemplo, sobre um projeto, uma tecnologia ou a trajetória da Sthephany.", sources: [] };
+  if (!q.length) return { text: "Pode reformular? Pergunte, por exemplo, sobre um projeto, uma tecnologia ou a minha trajetória.", sources: [] };
 
   const f = matchFaq(q);
   if (f) return faqAnswer(f);
@@ -112,7 +112,7 @@ export function ask(question: string): Answer {
 
   if (!scored.length) {
     return {
-      text: "Não encontrei essa informação no conteúdo público do portfólio. Para outros detalhes, o melhor caminho é falar diretamente com a Sthephany pela seção de contato.",
+      text: "Essa informação eu ainda não coloquei no portfólio. Me chama na seção de contato que eu te respondo pessoalmente!",
       sources: [DOCS.find((d) => d.id === "contact")!],
     };
   }
