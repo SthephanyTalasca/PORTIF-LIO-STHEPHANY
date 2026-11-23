@@ -7,7 +7,8 @@ const r = await build({
   bundle: true, minify: true, write: false, format: "iife", jsx: "automatic", target: "es2020",
   nodePaths: [path.join(root, "node_modules"), "/opt/npm-tools/node_modules"],
   alias: { "next/link": path.join(root, "preview/shims/link.tsx"), "@": path.join(root, "src") },
-  define: { "process.env.NEXT_PUBLIC_SITE_URL": '""', "process.env.NEXT_PUBLIC_FORM_ENDPOINT": '""', "process.env.NODE_ENV": '"production"' },
+  define: { "process.env.NEXT_PUBLIC_SITE_URL": '""', "process.env.NEXT_PUBLIC_BASE_PATH": '""', "process.env.NEXT_PUBLIC_FORM_ENDPOINT": '""', "process.env.NODE_ENV": '"production"' },
+  banner: { js: "var process={env:{}};" },
   logLevel: "warning",
 });
 const js = r.outputFiles[0].text.replace(/<\/script/g, "<\\/script");

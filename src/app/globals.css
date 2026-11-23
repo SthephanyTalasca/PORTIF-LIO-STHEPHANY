@@ -435,7 +435,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .ask__msg--user { align-self: flex-end; background: var(--violet); border-bottom-right-radius: 4px; }
 .ask__sources { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; white-space: normal; }
 .ask__sources a { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--lavender); padding: 3px 9px; border-radius: 999px; border: 1px solid rgba(139, 92, 246, 0.35); }
-.ask__suggest { display: grid; gap: 8px; }
+.ask__suggest { display: flex; flex-wrap: wrap; gap: 8px; }
+.ask__suggest .chip { text-align: left; }
+.ask__suggest-label { width: 100%; color: var(--muted); font-size: 12px; margin-top: 4px; }
+.ask__sources a.is-whatsapp { color: #fff; background: #1f9d55; border-color: #25d366; }
 .ask__form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
 .ask__form input { border-radius: 999px; padding: 10px 16px; font-size: 14.5px; }
 
